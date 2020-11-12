@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block customcss %}
+<link href="{% static 'css/form-validation.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/zip.js' %}"></script>
+{% endblock customcss %}
+{% block headbar %}
+{% if user %}
+<a href="{% url 'list' %}" class="btn-svg">TOP</a>
+{% endif %}
+{% endblock headbar %}
+{% block content %}
+<div class="container">
+    <div class="py-5 text-center">
+      <h2>登録情報</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12 order-md-1">
+            <form class="needs-validation" method="POST">{% csrf_token %} <!-- 末尾にnovalidateをつけるとチェック省略 -->
+                <input type="hidden" name="befusername" id="befusername" value="{{ user.username }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">名字</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="" value="{{ user.first_name }}"><!--required-->
+                        <div class="invalid-feedback">
+                            名字を入力してください。
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">名前</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value="{{ user.last_name }}"><!--required-->
+                        <div class="invalid-feedback">
+                            名前を入力してください。
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="username">ユーザーネーム</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ user.username }}"><!--required-->
+                            <div class="invalid-feedback" style="width: 100%;">
+                                ユーザーネームを入力してください。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="email">メールアドレス<span class="text-muted"></span></label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="{{ user.email }}">
+                        <div class="invalid-feedback">
+                            有効なメールアドレスを入力してください。
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="zip" class="mr-3">郵便番号</label><button class="btn-sm btn-secondary" type="button" onclick="getZip();">住所検索</button>
+                        <input type="text" class="form-control" id="zip" name="zipnumber" placeholder="" value="{{ user.zipnumber }}"><!--required-->
+                        
+                        <div class="invalid-feedback">
+                            郵便番号を入力してください。
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="address">住所</label>
+                        <input type="text" class="form-control" id="address1" name="address1" placeholder="東京都千代田区千代田1-1" value="{{ user.address1 }}"><!--required-->
+                        <div class="invalid-feedback">
+                            送り先住所を入力してください。
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="address2">住所2<span class="text-muted"></span></label>
+                        <input type="text" class="form-control" id="address2" name="address2" placeholder="アパートやマンション名" value="{{ user.address2 }}">
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

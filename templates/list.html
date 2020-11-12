@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block customcss %}
+<link href="{% static 'css/button.css' %}" rel="stylesheet">
+{% endblock customcss %}
+{% block headbar %}
+{% if user %}
+<a href="{% url 'mypage' %}" class="btn-svg">
+    <svg height="40" width="134" class="alert-warning">
+      <rect x="2" y="2" rx="0" fill="none" width=130 height="37"></rect>
+    </svg>
+    <span>MY PAGE</span>
+</a>
+<a href="{% url 'logout' %}" class="btn-svg">
+    <svg height="40" width="134" class="alert-secondary">
+      <rect x="2" y="2" rx="0" fill="none" width=130 height="37"></rect>
+    </svg>
+    <span>LOG OUT</span>
+</a>
+{% endif %}
+{% endblock headbar %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Board</h1>
+        <p class="lead">
+            {% if user %}
+                ようこそ！ {{ user.username }} さん
+            {% endif %}
+            {% if user.is_superuser %}
+                あなたは管理者です。
+            {% endif %}
+        </p>
+    </div>
+</div>
+<div class="alert alert-primary" role="alert">
+    社内SNS
+</div>
+<div class="container">
+    <a href="{% url 'create' %}" class="btn btn-success mb-3" role="button" aria-pressed="true">記事投稿</a>
+    {% for item in object_list %}
+    <div class="alert alert-success" role="alert">
+        <p>タイトル：<a href="{% url 'detail' item.pk %}">{{ item.title }}</a></p>
+        <p>投稿者：{{ item.author }}</p>
+        <a href="{% url 'good' item.pk %}" class="btn btn-primary" role="button" aria-pressed="true">いいね : {{ item.good }}</a>
+        <a href="{% url 'read' item.pk %}" class="btn btn-secondary" role="button" aria-pressed="true">既読 : {{ item.read }}</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

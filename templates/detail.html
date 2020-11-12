@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block customcss %}
+<link href="{% static 'css/button.css' %}" rel="stylesheet">
+{% endblock customcss %}
+{% block headbar %}
+{% if user %}
+<a href="" class="btn-svg">
+    <svg height="40" width="134" class="alert-warning">
+      <rect x="2" y="2" rx="0" fill="none" width=130 height="37"></rect>
+    </svg>
+    <span>MY PAGE</span>
+</a>
+<a href="{% url 'logout' %}" class="btn-svg">
+    <svg height="40" width="134" class="alert-secondary">
+      <rect x="2" y="2" rx="0" fill="none" width=130 height="37"></rect>
+    </svg>
+    <span>LOG OUT</span>
+</a>
+{% endif %}
+{% endblock headbar %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Board</h1>
+        <p class="lead">
+            投稿詳細
+        </p>
+    </div>
+</div>
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        <p>タイトル：{{ board_item.title }}</p>
+        <p>本文：{{ board_item.content }}</p>
+        <p>投稿者：{{ board_item.author }}</p>
+        <p><img src="{{ board_item.images.url }}" width="300" height="auto"></p>
+        <a href="{% url 'good' board_item.pk %}" class="btn btn-primary btn" role="button" aria-pressed="true">いいね : {{ board_item.good }}</a>
+        <a href="{% url 'read' board_item.pk %}" class="btn btn-secondary btn" role="button" aria-pressed="true">既読 : {{ board_item.read }}</a>
+    </div>
+</div>
+{% endblock content %}
